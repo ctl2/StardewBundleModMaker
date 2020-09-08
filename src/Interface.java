@@ -15,7 +15,7 @@ import util.ReadableJsonFile;
 import util.WriteableJsonFile;
 
 public class Interface {
-	
+
 	private ItemDatabase itemDb;
 
 	public Interface() throws ItemFileException, ConfigException {
@@ -25,7 +25,7 @@ public class Interface {
 	}
 
 	public void start() throws PrettyException {
-		System.out.println("Welcome to Stardew Valley Bundle Maker!");
+		System.out.println("Welcome to Stardew Bundle Mod Maker!");
 		System.out.println();
 		while (true) {
 			System.out.println("Enter a command (e.g. help).");
@@ -46,9 +46,9 @@ public class Interface {
 						break;
 					case "help":
 						System.out.println("Command | Description");
-						System.out.println("--------+-----------------------------------------------------------------------");
-						System.out.println(" sbmm   | Convert a JSON bundles file from Stardew Valley format to SBMM format.");
-						System.out.println(" sv     | Convert a JSON bundles file from SBMM format to Stardew Valley format.");
+						System.out.println("--------+----------------------------------------------------------------");
+						System.out.println(" sbmm   | Convert a JSON bundles file from vanilla format to SBMM format.");
+						System.out.println(" sv     | Convert a JSON bundles file from SBMM format to vanilla format.");
 						System.out.println(" m      | Make a mod.");
 						System.out.println(" q      | Terminate the program.");
 						break;
