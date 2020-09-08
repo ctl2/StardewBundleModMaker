@@ -46,9 +46,9 @@ public class Interface {
 						break;
 					case "help":
 						System.out.println("Command | Description");
-						System.out.println("--------+----------------------------------------------------------------");
-						System.out.println(" sbmm   | Convert a JSON bundles file from vanilla format to SBMM format.");
-						System.out.println(" sv     | Convert a JSON bundles file from SBMM format to vanilla format.");
+						System.out.println("--------+-----------------------------------------------------------------------");
+						System.out.println(" sbmm   | Convert a JSON bundles file from Stardew Valley format to SBMM format.");
+						System.out.println(" sv     | Convert a JSON bundles file from SBMM format to Stardew Valley format.");
 						System.out.println(" m      | Make a mod.");
 						System.out.println(" q      | Terminate the program.");
 						break;
