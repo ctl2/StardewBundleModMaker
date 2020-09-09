@@ -301,6 +301,8 @@ class Bundle {
 		return new SimpleEntry<String, String>(getSvFormatKey(), getSvFormatValue() + "/" + bundleNameTranslation);
 	}
 
+	// Not used to avoid having the game read the 'required options' value as the name translation
+	// when switching languages in-game from english to non-english
 	public SimpleEntry<String, String> getSvFormatEntry() {
 		return new SimpleEntry<String, String>(getSvFormatKey(), getSvFormatValue());
 	}

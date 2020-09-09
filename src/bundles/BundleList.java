@@ -100,11 +100,8 @@ public class BundleList extends ArrayList<Bundle> {
 					LinkedHashMap<String, String> svFormatTranslation = new LinkedHashMap<String, String>();
 					this.stream()
 					.forEach(bundle -> {
-						SimpleEntry<String, String> svFormatEntry = (
-							translation.getValue() == null?
-								bundle.getSvFormatEntry():
-								bundle.getSvFormatEntry(translation.getValue().get(bundle.getName()))
-						);
+						SimpleEntry<String, String> svFormatEntry = 
+								bundle.getSvFormatEntry(translation.getValue().get(bundle.getName()));
 						svFormatTranslation.put(svFormatEntry.getKey(), svFormatEntry.getValue());
 					});
 					svFormatTranslations.put(translation.getKey(), svFormatTranslation);

@@ -12,6 +12,7 @@ import com.google.gson.JsonSyntaxException;
 
 import errorHandling.alerts.JsonSyntaxAlert;
 import errorHandling.alerts.MissingFileAlert;
+import errorHandling.alerts.NumberOfValuesAlert;
 import errorHandling.alerts.ValueTypeAlert;
 import errorHandling.exceptions.NonEnglishVanillaBundlesFileException;
 import util.ReadableJsonFile;
@@ -28,37 +29,36 @@ public class BundleTranslations extends HashMap<String, LinkedHashMap<String, St
 			// Initialise hashmap
 			LinkedHashMap<String, String> translations;
 			// Populate hashmap
-			if (lang[0].equals("en")) {
-				translations = null;
-			} else {
-				translations = new LinkedHashMap<String, String>();
-				// Read the bundles file for the current language
-				ReadableJsonFile readableBundlesFile = new ReadableJsonFile("Bundles/Vanilla", "Bundles." + lang[0] + "-" + lang[1]);
+			translations = new LinkedHashMap<String, String>();
+			// Read the bundles file for the current language
+			ReadableJsonFile readableBundlesFile = new ReadableJsonFile("Bundles/Vanilla", "Bundles." + lang[0] + "-" + lang[1]);
+			try {
 				try {
-					try {
-						JsonObject bundles = readableBundlesFile.getJson();
-						// Add bundleEnglishName -> bundleLangName entries
-						for (Entry<String, JsonElement> bundleEntry: bundles.entrySet()) {
-							translations.put(
-								getName(readableBundlesFile, bundleEntry),
+					JsonObject bundles = readableBundlesFile.getJson();
+					// Add bundleEnglishName -> bundleLangName entries
+					for (Entry<String, JsonElement> bundleEntry: bundles.entrySet()) {
+						translations.put(
+							getName(readableBundlesFile, bundleEntry), (
+								lang[0].equals("en")?
+								getName(readableBundlesFile, bundleEntry):
 								getNameTranslation(readableBundlesFile, bundleEntry)
-							);
-						}
-					} catch (FileNotFoundException e1) {
-						throw new NonEnglishVanillaBundlesFileException(
-							new MissingFileAlert(readableBundlesFile)
+							)
 						);
-					} catch (JsonSyntaxException e2) {
-						throw new NonEnglishVanillaBundlesFileException(
-							new JsonSyntaxAlert(readableBundlesFile)
-						);
-					} catch (ValueTypeAlert a) {
-						throw new NonEnglishVanillaBundlesFileException(a);
 					}
-				} catch (NonEnglishVanillaBundlesFileException e) {
-					if (e.isFatal()) throw e;
-					// If not fatal, skip file
+				} catch (FileNotFoundException e1) {
+					throw new NonEnglishVanillaBundlesFileException(
+						new MissingFileAlert(readableBundlesFile)
+					);
+				} catch (JsonSyntaxException e2) {
+					throw new NonEnglishVanillaBundlesFileException(
+						new JsonSyntaxAlert(readableBundlesFile)
+					);
+				} catch (ValueTypeAlert | NumberOfValuesAlert a) {
+					throw new NonEnglishVanillaBundlesFileException(a);
 				}
+			} catch (NonEnglishVanillaBundlesFileException e) {
+				if (e.isFatal()) throw e;
+				// If not fatal, skip file
 			}
 			// Add hashmap to /this/
 			put(lang[0], translations);
@@ -74,14 +74,14 @@ public class BundleTranslations extends HashMap<String, LinkedHashMap<String, St
 		.split("/")[0];
 	}
 
-	private String getNameTranslation(ReadableJsonFile bundleFile, Entry<String, JsonElement> bundle) throws ValueTypeAlert {
+	private String getNameTranslation(ReadableJsonFile bundleFile, Entry<String, JsonElement> bundle) throws ValueTypeAlert, NumberOfValuesAlert {
 		String[] bundleValues = ReadableJsonFile.jsonElementToString(
 			bundleFile, 
 			null, 
 			bundle.getValue()
 		)
 		.split("/");
-		return bundleValues[bundleValues.length-1];
+		return bundleValues[bundleValues.length - 1];
 	}
 
 	private String toCapitalised(String string) {
