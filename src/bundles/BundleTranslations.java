@@ -26,21 +26,27 @@ public class BundleTranslations extends HashMap<String, LinkedHashMap<String, St
 	public BundleTranslations() throws NonEnglishVanillaBundlesFileException {
 		// Populate /this/ with hashmaps of bundle name translations for every language
 		for (String[] lang: langs) {
+			boolean isEnglish = lang[0].equals("en");
 			// Initialise hashmap
 			LinkedHashMap<String, String> translations;
 			// Populate hashmap
 			translations = new LinkedHashMap<String, String>();
 			// Read the bundles file for the current language
-			ReadableJsonFile readableBundlesFile = new ReadableJsonFile("Bundles/Vanilla", "Bundles." + lang[0] + "-" + lang[1]);
+			ReadableJsonFile readableBundlesFile = (
+				isEnglish?
+				new ReadableJsonFile("Bundles/Vanilla", "Bundles"):
+				new ReadableJsonFile("Bundles/Vanilla", "Bundles." + lang[0] + "-" + lang[1])
+			);
 			try {
 				try {
 					JsonObject bundles = readableBundlesFile.getJson();
 					// Add bundleEnglishName -> bundleLangName entries
 					for (Entry<String, JsonElement> bundleEntry: bundles.entrySet()) {
+						String bundleName = getName(readableBundlesFile, bundleEntry);
 						translations.put(
-							getName(readableBundlesFile, bundleEntry), (
-								lang[0].equals("en")?
-								getName(readableBundlesFile, bundleEntry):
+							bundleName, (
+								isEnglish?
+								bundleName:
 								getNameTranslation(readableBundlesFile, bundleEntry)
 							)
 						);
