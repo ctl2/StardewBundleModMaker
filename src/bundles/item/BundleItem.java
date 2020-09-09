@@ -29,6 +29,10 @@ abstract class BundleItem {
 			case 2:
 				return getQuantity() + " gold " + getName();
 			case 3:
+				// Quality actually goes from 2 for gold to 4 for iridium,
+				// but that's kind of unintuitive so I'm assuming that both mean iridium.
+				return getQuantity() + " iridium " + getName();
+			case 4:
 				return getQuantity() + " iridium " + getName();
 		}
 		throw new RuntimeException("Invalid quality value (" + this.getQuality() + ") passed validation.");
@@ -178,7 +182,7 @@ abstract class BundleItem {
 	{
 		switch (quality) {
 			case "iridium":
-				return 3;
+				return 4;
 			case "gold":
 				return 2;
 			case "silver":
@@ -201,9 +205,14 @@ abstract class BundleItem {
 				qualityInt == 0 || 
 				qualityInt == 1 || 
 				qualityInt == 2 || 
-				qualityInt == 3
+				qualityInt == 4
 			) {
 				return qualityInt;
+			}
+			if (qualityInt == 3) {
+				// Quality actually goes from 2 for gold to 4 for iridium,
+				// but that's kind of unintuitive so I'm assuming that both mean iridium.
+				return 4;
 			}
 			throw new ItemQualityAlert(bundleFile, bundleName, optionString, quality);
 		} catch (NumberFormatException e) {
