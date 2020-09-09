@@ -1,8 +1,11 @@
 package util;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 public class WriteableFile extends AbstractFile {
 
@@ -17,7 +20,7 @@ public class WriteableFile extends AbstractFile {
         try {
 			file.createNewFile();
 	        // Write to output file
-	        FileWriter fileWriter = new FileWriter(getPath());
+	        Writer fileWriter = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
 	        fileWriter.write(fileContents.toString());
 	        fileWriter.close();
 		} catch (IOException e) {

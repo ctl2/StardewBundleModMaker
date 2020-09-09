@@ -19,6 +19,8 @@ public class Interface {
 	private ItemDatabase itemDb;
 
 	public Interface() throws ItemFileException, ConfigException {
+		System.out.println("Loading...");
+		System.out.println();
 		Configurations configs = new Configurations();
 		configs.configure();
 		this.itemDb = new ItemDatabase();

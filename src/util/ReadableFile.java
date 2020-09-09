@@ -1,10 +1,12 @@
 package util;
 
-import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 
 public class ReadableFile extends AbstractFile {
 
@@ -14,14 +16,13 @@ public class ReadableFile extends AbstractFile {
 
 	public String getFileContents() throws FileNotFoundException {
 		// Read contents
-		BufferedReader fileReader;
 		String fileContents = "";
-		fileReader = new BufferedReader(new FileReader(getPath()));
+		Reader fileReader = new InputStreamReader(new FileInputStream(getPath()), StandardCharsets.UTF_8);
 		try {
 			while (true) {
-				String line = fileReader.readLine();
-				if (line == null) break; // Break on EOF
-				fileContents += line;
+				int nextChar = fileReader.read();
+				if (nextChar == -1) break; // Break on EOF
+				fileContents += (char) nextChar;
 			}
 			fileReader.close();
 		} catch (IOException e) {
