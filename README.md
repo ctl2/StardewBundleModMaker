@@ -1,8 +1,8 @@
 # Stardew Bundle Mod Maker
 
-The source code for SBMM. See [Nexus Mods](https://www.nexusmods.com/stardewvalley/mods/6802)
+The source code for SBMM. See [Nexus Mods](https://www.nexusmods.com/stardewvalley/mods/6802).
 
-### License
+### Gson License
 
 This projoct uses the Gson Java library. Gson is released under the [Apache 2.0 license](LICENSE).
 
